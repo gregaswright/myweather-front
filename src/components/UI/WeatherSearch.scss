@@ -1,0 +1,145 @@
+@import '../../variables';
+
+.form {
+    
+    // border: 1px solid transparent; 
+    // border-bottom-color: #ccc; 
+    border-radius: 20%;
+
+    &__search {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+    }
+
+    &__suggestion {
+        margin-top: 5px;
+        border-radius: 15px;
+        border: 2px solid green;
+        position: absolute;
+        
+        .suggestion-item {
+            width: 380px;
+        }
+    }
+    
+    &__controls {
+        width: 320px;
+    }
+
+    &__input {
+        
+        border-radius: 25px;
+        // background-color: black;
+        text-align: center;
+        font-family: $primary-font;
+        height: 36px;
+        width: 100%;
+        padding: 1px 20px;
+        box-shadow: none;
+        border: 0; 
+        // border: 1px solid transparent; 
+        // border-bottom-color: #ccc; 
+        transition: 0.4s;
+
+        & ~ .border-bottom {
+            position: absolute; 
+            height: 36px;
+            width: 100%;
+            bottom: 0; 
+            left: 0;  
+            border: 1px solid transparent; 
+            // border-bottom-color: #ccc;
+            pointer-events: none;
+            transition: 0.4s;
+        }
+        
+        &:focus ~ .border-bottom{
+            width: 50%;
+            border-bottom-color: transparent;
+        }
+
+        &:focus {
+            // border-bottom-color: transparent; 
+            outline: none;
+            padding: -10px 14px 20px; 
+            transition: 0.4s; 
+                  
+        }
+
+        & ~ .address-border {
+            position: absolute; 
+            height: 34px;
+            width: 112%;
+            bottom: 0; 
+            left: 0;  
+            border-radius: 25px;
+            border: 2px solid #4dcfe0; 
+            pointer-events: none;
+        }
+        
+        & ~ .focus-border {
+            position: absolute; 
+            height: 34px; 
+            bottom: 0; 
+            left: 0; 
+            width: 0; 
+            transition: 0.4s;
+        }
+
+        &:focus ~ .focus-border {
+            border-radius: 25px;
+            width: 112%; 
+            transition: 0.4s; 
+            border: 2px solid #4dcfe0;
+        }
+    
+        &::placeholder {
+            transition: opacity .3s;
+        }
+    
+        &:focus::placeholder {
+                opacity: 0;
+        }
+    }
+
+    &__button  {
+        // border: 4px solid #4dcfe0;
+        border-left: none;
+        left: 326px;
+        position: absolute;
+        bottom: 1px;
+        // border-radius: 0 25px 25px 0;
+       
+      
+        &--address {
+            visibility: hidden;
+            height: 37px;
+            width: 37px;
+            img {
+                visibility: hidden;
+                width: 0%;
+            }
+        }
+        
+        &--reset {
+            transition: opacity 0.3s linear 2s; 
+            position: absolute;
+            bottom: 1px;
+            border-radius: 25px;
+            border: none;
+            height: 37px;
+            width: 37px;
+            background-color: #4dcfe0;
+            cursor: pointer;
+            
+     
+            img {
+                display: block;
+                margin: auto;
+                width: 80%;
+                padding-left: 0px;
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+.nav-bar{
+    background-color: black;
+    width: 100%;
+    
+    nav {
+        width: 90%;
+        height: 50%;
+        top: 25%;
+        margin: 0 auto;
+        // position: relative;
+        // border: 1px solid red;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        // display: inline-block;
+        // margin: 0 auto;
+    }
+
+    &__nav{
+        background-color: black;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        list-style: none;
+        // gap: 300px;
+    }
+
+    &__logo &__sign {
+        border: 1px solid red;
+    }
+    
+    &__logo{
+        color: white;
+        cursor: pointer;
+    }
+    
+    &__search{
+        // border: 2px solid lightgreen;
+        // border-radius: 50%;
+    }
+    
+    &__sign{
+        color: white;
+    }
+}
