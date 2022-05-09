@@ -1,5 +1,6 @@
 import React, { useState } from "react"; 
 import PlacesAutocomplete, { geocodeByAddress } from "react-places-autocomplete";
+import useScript from "../../hooks/useScript";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import { weatherDataActions } from "../../store";
@@ -8,6 +9,8 @@ import './WeatherSearch.scss'
 
 const WeatherSearch = () => {
     const [address, setAddress] = useState("");
+
+    useScript(`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API}&libraries=places&callback=initMap`)
 
     const weatherStore = useSelector(state => state.data)
     const dispatch = useDispatch()

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react"; 
 
-const Modal = ({children, open, onRequestClose, className}) => {
+const Modal = ({children, open, onRequestClose, className, ...props}) => {
     const dialog = useRef(null)
 
     useEffect(() => {
