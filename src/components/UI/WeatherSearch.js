@@ -1,76 +1,57 @@
-import React, { useState } from "react"; 
+import React, { useEffect, useState } from "react"; 
 import PlacesAutocomplete, { geocodeByAddress } from "react-places-autocomplete";
-import useScript from "../../hooks/useScript";
-import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import { weatherDataActions } from "../../store";
+import useAxios from "../../hooks/useAxios";
+
 
 import './WeatherSearch.scss'
 
 const WeatherSearch = () => {
-    const [address, setAddress] = useState("");
+    const { res, loading, error, operation } = useAxios()
+    const [place, setPlace] = useState("")
+    const [searchInput, setSearchInput] = useState("")
 
-    useScript(`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API}&libraries=places&callback=initMap`)
-
-    const weatherStore = useSelector(state => state.data)
+    const weatherStore = useSelector(state => state.data.weatherScriptMounted)
+    const weather = useSelector(state => state.data.data)
     const dispatch = useDispatch()
+ 
+    const search = (city) => {
+        operation({
+            method: 'GET',
+            url: `/weather?address=${city}`, 
+        })
+    }
     
-    const fetchData = async (place) => {
-        const result = await axios(
-                `http://localhost:3000/weather?address=${place}`
-        );
-        console.log(result.data)
-        // dispatch({ type: 'ADD_WEATHER_DATA', data: result.data})
-        
-        weatherDispatchHandler(result.data)
-    }
-
-    const weatherDispatchHandler = (data) => {
-        dispatch(weatherDataActions.addWeatherData(data))
-    }
-
-    const localSubmitHandler = (event) => {
-        event.preventDefault()
-        if (address) {
-            fetchData(address)
-            console.log('localsubmithandler')
-        }     
-    }
-
+    useEffect(() => {
+        if (res!== null) {
+            dispatch(weatherDataActions.addWeatherData(res))
+        }
+    }, [res]);   
+    
     const handleSelect = async (address, placeId, suggestion) => {
         const results = await geocodeByAddress(address)
         const formattedAddress = results[0].formatted_address
-        setAddress(formattedAddress)
-        if (placeId) {
-                fetchData(address)
-                console.log('handleselect')
-            }
+        setPlace(formattedAddress)
+        search(formattedAddress)
     }
 
-    const localClickHandler = (place) => {
-        console.log('place')
-        fetchData(place)
-    }
-
-    const resetForm = () => {
-        setAddress('')
-    }
-  
     const searchOptions = {
         types: [
             '(regions)'   
         ]
     }
    
-    // console.log(weatherData)
     return (
         <>
-            <form className='form' onSubmit={localSubmitHandler} >
-                <PlacesAutocomplete
-                    value={address}
-                    onChange={setAddress}
+            <form className='form' 
+            >
+                {weatherStore && <PlacesAutocomplete
+                    value={searchInput}
+                    onChange={setSearchInput}
                     onSelect={handleSelect}
-                    searchOptions={searchOptions}>
+                    searchOptions={searchOptions}
+                    >
                 {({ getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                     <div className="form__group">
                         <div className="form__search">
@@ -80,16 +61,10 @@ const WeatherSearch = () => {
                                     id: 'search'
                                 })
                                 }/>
-                                <span className={address ? "address-border" : "focus-border"}></span>
-                                {/* <span className={ address ? "border-bottom--none" : "border-bottom"}></span> */}
-                            </div>
-                            {/* <div className="form__button">
-                                    <Button className={address ? "form__button--reset" : 'form__button--address'} onClick={resetForm}>
-                                        <img className="form__button--image_visible" src='/delete.png' alt="delete"/>
-                                    </Button>  
-                            </div> */}
+                                <span className={searchInput ? "address-border" : "focus-border"}></span>
+                            </div>     
                         </div>
-                        {address ? <div className="form__suggestion">
+                        {searchInput ? <div className="form__suggestion">
                             {loading && "...loading"}
                             {suggestions.map( suggestion => {
                                 const className = suggestion.active ? 'suggestion-item--active' :
@@ -97,25 +72,30 @@ const WeatherSearch = () => {
                                 const style = suggestion.active ?
                                 { backgroundColor: '#7AA5BF', cursor: 'pointer' } : 
                                 { backgroundColor: '#ffffff', cursor: 'pointer' }; 
+                                const key = suggestion.placeId
                                 return (
-                                    <div
+                                    <div 
+                                        key={key}
                                         {...getSuggestionItemProps(suggestion, {
                                             className,
                                             style,
+                                            
                                         })}
                                     >
-                                        <span onClick={() => localClickHandler(suggestion.description)}>{suggestion.description}</span> 
+                                        <span 
+                                            // onClick={() => 
+                                            //     // suggestionClickHandler(suggestion.description)
+                                            // 
+                                            // }
+                                        >{suggestion.description}</span> 
                                     </div>
                                 )
                             })}
                         </div>  : null}
                     </div>
                 )}
-                </PlacesAutocomplete>
+                </PlacesAutocomplete>}
             </form>
-            {/* <Card>
-                {weatherData ? <Weather weatherData={weatherData}/> : null}
-            </Card> */}
         </>
     )
 }

@@ -3,7 +3,7 @@ import WeatherSearch from '../UI/WeatherSearch'
 
 import './Navigation.scss'
 
-const Navigation = ({toggleDialog}) => {
+const Navigation = ({toggleDialog, pullWeather}) => {
   return (
     <>
       <header className="nav-bar">
@@ -13,10 +13,15 @@ const Navigation = ({toggleDialog}) => {
                 <h1>Logo</h1>
               </li>
               <li className="nav-bar__search">
-                <WeatherSearch />
+                <WeatherSearch pullWeather={pullWeather}/>
               </li>
               <li className="nav-bar__sign">
-                <button className='nav-bar__sign' onClick={toggleDialog}>Sign-in/Sign-up</button>
+                <button 
+                  className='nav-bar__sign' 
+                  onClick={toggleDialog}
+                >
+                  Sign-in/Sign-up
+                </button>
               </li>
             </ul>   
           </nav>

@@ -1,7 +1,9 @@
-import React, { useRef, useEffect } from "react"; 
+import React, { useRef, useEffect } from "react";
+import Button from './Button' 
 
-const Modal = ({children, open, onRequestClose, className, ...props}) => {
+const Modal = ({children, open, onRequestClose, closeOnOutsideClick, className, ...props}) => {
     const dialog = useRef(null)
+
 
     useEffect(() => {
         const dialogNode = dialog.current
@@ -23,11 +25,27 @@ const Modal = ({children, open, onRequestClose, className, ...props}) => {
         dialogNode.removeEventListener('cancel', handleCancel)
       }
     }, [onRequestClose])
+
+    const handleOutsideClick = (event) => {
+        const dialogNode = dialog.current;
+        if (closeOnOutsideClick && event.target === dialogNode) {
+          onRequestClose();
+        }
+      }
     
     return (
-        <dialog ref={dialog} className={`model ${className}`}>
-            {children}
-            <button>close</button>
+        <dialog 
+            ref={dialog} 
+            className={`modal ${className}`} 
+            onClick={handleOutsideClick}
+        >
+                <Button onClick={onRequestClose}>
+                    X
+                </Button>
+            <header>
+                {children[0]}
+            </header>
+            {children[1]}
         </dialog>
     )
 }

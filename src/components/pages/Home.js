@@ -7,14 +7,13 @@ import Card from '../UI/Card'
 // import './Card.scss';
 
 const Home = () => {
-
-  const weather = useSelector(state => state.data)
-
-  console.log(weather)
+ 
+  const weather = useSelector(state => state.data.data)
+  
   return (
     <div className='home__main'>
         <Card >
-            {weather ? <Weather weather={weather}/> : null}
+            {weather ? <Weather weather={weather}/> : <></>}  
         </Card>
     </div>
   )
