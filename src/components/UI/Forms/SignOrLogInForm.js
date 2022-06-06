@@ -13,8 +13,6 @@ const SignOrLogInForm = () => {
     
     const { res, loading, error, operation} = useAxios()
 
-    console.log(document.cookie);
-    
     const formData =  {
         email: formEmailValue,
         password: formPasswordValue
@@ -54,7 +52,7 @@ const SignOrLogInForm = () => {
           console.log(res);
           document.cookie = `token=${res.token}`
             console.log(document.cookie);
-      } else {
+      } else if (error) {
           console.log(error)
       }
     }, [res, error])

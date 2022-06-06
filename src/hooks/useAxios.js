@@ -11,9 +11,10 @@ const useAxios = () => {
     const operation = async(params) => {
         console.log(params)
         try {
+            const resKey = params.resKey
             setLoading(true)
             const result = await axios.request(params);
-            setRes(result.data);
+            setRes({[resKey]: result.data});
         } catch (error) {
             setError(error);
         } finally {
@@ -21,7 +22,7 @@ const useAxios = () => {
         }
     };
 
-    return {res, error, loading, operation}
+    return { res, error, loading, operation}
 };
 
 export default useAxios
