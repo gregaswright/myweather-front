@@ -19,12 +19,16 @@ function App() {
   const user = useSelector(state => state.user)
 
   console.log(user);
+  console.log(res);
 
-  const API = process.env.REACT_APP_GOOGLE_PLACES_API
+  const PLACES_API_KEY = process.env.REACT_APP_GOOGLE_PLACES_API
 
-  const status = useScript(`https://maps.googleapis.com/maps/api/js?key=${API}&libraries=places`)
+  const status = useScript(`https://maps.googleapis.com/maps/api/js?key=${PLACES_API_KEY}&libraries=places`)
   
   const token = (document.cookie) ? document.cookie.split('; ') : [];
+  
+  // console.log(token);
+  // console.log(status);
   
   const checkToken = async () => {
     operation({
@@ -33,7 +37,6 @@ function App() {
       data: token[0]?.slice(6),
       headers: { 'token': token[0]?.slice(6)},
       resKey: 'user'
-
     })
     getUserCities()
   }
@@ -45,7 +48,6 @@ function App() {
       headers: { 'Authorization': token[0]?.slice(6)},
       resKey: 'userCities'
   })
-  console.log(res);
 } 
 
   useEffect(() => {
@@ -53,6 +55,7 @@ function App() {
     if (res !== null) {
       if (res.user) {
         dispatch(userDataActions.currentUserData(res.user))
+        dispatch(userDataActions.logUserIn())
       } 
       else if (res.userCities) {
         dispatch(userDataActions.currentUserCitiesData(res.userCities))

@@ -9,6 +9,8 @@ import Card from '../UI/Card'
 const Home = () => {
  
   const weather = useSelector(state => state.data.data)
+
+  // console.log(weather)
   
   return (
     <div className='home__main'>

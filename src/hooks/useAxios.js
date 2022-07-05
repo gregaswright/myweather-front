@@ -1,3 +1,4 @@
+// Ref in: WeatherSearch
 import { useState } from "react";
 import axios from "axios";
 
@@ -9,12 +10,17 @@ const useAxios = () => {
     const [loading, setLoading] = useState(true)
 
     const operation = async(params) => {
-        console.log(params)
+        // console.log(params);
+        // console.log(params.resKey)
         try {
             const resKey = params.resKey
             setLoading(true)
             const result = await axios.request(params);
-            setRes({[resKey]: result.data});
+            if (resKey) {
+                setRes({[resKey]: result.data});
+            } else {
+                setRes(result.data)
+            }
         } catch (error) {
             setError(error);
         } finally {
@@ -22,6 +28,7 @@ const useAxios = () => {
         }
     };
 
+    // console.log(res);
     return { res, error, loading, operation}
 };
 

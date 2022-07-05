@@ -19,7 +19,7 @@ const WeatherSearch = () => {
     const search = (city) => {
         operation({
             method: 'GET',
-            url: `/weather?address=${city}`, 
+            url: `/weather?address=${city}` 
         })
     }
     
@@ -72,15 +72,15 @@ const WeatherSearch = () => {
                                 const style = suggestion.active ?
                                 { backgroundColor: '#7AA5BF', cursor: 'pointer' } : 
                                 { backgroundColor: '#ffffff', cursor: 'pointer' }; 
-                                const key = suggestion.placeId
+                                
+                                
                                 return (
                                     <div 
-                                        key={key}
                                         {...getSuggestionItemProps(suggestion, {
                                             className,
-                                            style,
-                                            
+                                            style
                                         })}
+                                        key={suggestion.placeId}
                                     >
                                         <span 
                                             // onClick={() => 

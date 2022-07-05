@@ -1,23 +1,25 @@
+// Ref'd in: Home.js 
 import React from "react"
 
 const Weather = (props) => {
 
+    console.log(props.weather.weather);
     return (
         <>
             {props?.weather.error ? <></> : 
             <section>
                 <header>
                     <h1>{props?.weather.address}</h1>
-                    <span>As of {props?.weather.forecast.place.observation_time}</span>
+                    <span>As of {props?.weather.forecast.observation_time}</span>
                 </header>
                 <main>
                     <div>
-                        <span>{props?.weather.forecast.place.temperature}°</span>
-                        <div>Feels like {props?.weather.forecast.place.feelslike}°</div>
-                        <div>{props?.weather.forecast.place?.weather_descriptions}</div>
+                        <span>{props?.weather.forecast.temperature}°</span>
+                        <div>Feels like {props?.weather.forecast.feelslike}°</div>
+                        <div>{props?.weather.forecast.weather_descriptions}</div>
                     </div>
                     <div>
-                        <img src={props.weather.forecast.place?.weather_icons} alt={props?.weather.forecast.place.weather_description}/>
+                        <img src={props?.weather.forecast.weather_icons} alt={props?.weather.forecast.weather_description}/>
                     </div>
                 </main>
                 <footer>
